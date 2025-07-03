@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PyScript Test</title>
-  <link rel="stylesheet" href="https://pyscript.net/2022.12.1/pyscript.css" />
-  <script defer src="https://pyscript.net/2022.12.1/pyscript.js"></script>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
 </head>
-<body>
+<body onload="brython()">
 
-  <h1>Test PyScript</h1>
+<textarea id="code">print("hi")</textarea>
+<button onclick="run()">Run</button>
 
-  <py-script>
-from pyscript import display
-display("Hallo von PyScript!")
-  </py-script>
+<pre id="output"></pre>
+
+<script type="text/python">
+from browser import document
+
+def run():
+    exec(document["code"].value)
+
+window.run = run
+</script>
 
 </body>
 </html>
