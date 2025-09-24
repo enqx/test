@@ -1,26 +1,23 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Eingaben aus Formular holen & absichern
     $name = htmlspecialchars(trim($_POST['name']));
     $email = htmlspecialchars(trim($_POST['email']));
     $message = htmlspecialchars(trim($_POST['message']));
 
-    // Zieladresse (deine Mailadresse)
-    $to = "kontakt@nopa-webdesign.de";
+    $to = "kontakt@nopa-webdesign.de"; // Deine Mailadresse
     $subject = "Neue Nachricht von der Website";
     $body = "Name: $name\nE-Mail: $email\n\nNachricht:\n$message";
 
-    // Header für Absender
     $headers = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
 
-    // Mail verschicken
     if (mail($to, $subject, $body, $headers)) {
-        echo "<p style='color:green;'>Nachricht erfolgreich gesendet! Vielen Dank, $name.</p>";
+        echo "Vielen Dank, $name! Ihre Nachricht wurde erfolgreich gesendet.";
     } else {
-        echo "<p style='color:red;'>Fehler beim Senden der Nachricht. Bitte versuchen Sie es später erneut.</p>";
+        http_response_code(500);
+        echo "Fehler beim Senden. Bitte versuchen Sie es später erneut.";
     }
 } else {
-    echo "<p style='color:red;'>Ungültiger Aufruf.</p>";
+    http_response_code(405);
+    echo "Ungültige Anfrage.";
 }
-?>
