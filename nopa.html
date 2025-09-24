@@ -355,7 +355,7 @@
                             melden uns umgehend bei Ihnen für ein unverbindliches Erstgespräch.</p>
                     </div>
                     <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl border border-gray-700 scroll-reveal">
-                        <form action="sendmail.php" method="POST" id="contact-form">
+                        <form method="POST" id="contact-form">
                             <div id="form-result" class="hidden mb-4 p-4 rounded-md"></div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
@@ -588,8 +588,46 @@
                 });
             });
 
+            // --- Contact Form Handling with PHP (AJAX) ---
+            const contactForm = document.getElementById('contact-form');
+            const formResult = document.getElementById('form-result');
 
+            contactForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
 
+                const formData = new FormData(contactForm);
+
+                formResult.innerHTML = "Bitte warten...";
+                formResult.className = 'mb-4 p-4 rounded-md bg-yellow-200 text-yellow-800';
+                formResult.classList.remove('hidden');
+
+                try {
+                    const response = await fetch('sendmail.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.text(); // PHP gibt Text zurück
+
+                    if (response.ok) {
+                        formResult.innerHTML = result;
+                        formResult.className = 'mb-4 p-4 rounded-md bg-green-200 text-green-800';
+                        contactForm.reset();
+                    } else {
+                        formResult.innerHTML = "Fehler beim Senden. Bitte versuchen Sie es später.";
+                        formResult.className = 'mb-4 p-4 rounded-md bg-red-200 text-red-800';
+                    }
+
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    formResult.innerHTML = "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
+                    formResult.className = 'mb-4 p-4 rounded-md bg-red-200 text-red-800';
+                }
+
+                setTimeout(() => {
+                    formResult.classList.add('hidden');
+                }, 6000);
+            });
 
             // --- Cookie Consent ---
             const cookieBanner = document.getElementById('cookie-consent-banner');
