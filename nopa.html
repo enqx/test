@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoPa Webdesign - Agile Softwareentwicklung & Digitale Lösungen</title>
+    <meta name="description"
+        content="NoPa Webdesign ist Ihre Digitalagentur für maßgeschneiderte Software, Web-Apps und innovative digitale Produkte. Wir bringen Ihre Visionen mit agilen Methoden und transparenter Kommunikation zum Leben.">
+    <meta name="keywords"
+        content="Softwareagentur, Webentwicklung, App-Entwicklung, agile Entwicklung, maßgeschneiderte Software, Digitalagentur, UI/UX Design">
+    <link rel="shortcut icon" href="img/nobg.png" type="image/x-icon">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            /* bg-gray-900 */
+            color: #d1d5db;
+            /* text-gray-300 */
+        }
+
+        .accent-color {
+            color: #22d3ee;
+            /* cyan-400 */
+        }
+
+        .bg-accent-color {
+            background-color: #22d3ee;
+            /* cyan-400 */
+        }
+
+        .border-accent-color {
+            border-color: #22d3ee;
+            /* cyan-400 */
+        }
+
+        .ring-accent-color:focus {
+            --tw-ring-color: #22d3ee;
+            /* cyan-400 */
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #67e8f9, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            /* Adjust as needed */
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner"
+        class="fixed bottom-0 inset-x-0 bg-gray-800 bg-opacity-90 backdrop-blur-sm p-4 z-50 text-white hidden">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-gray-300">Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern.
+                Mit der weiteren Nutzung stimmen Sie unserer Cookie-Richtlinie zu.</p>
+            <div class="flex items-center gap-4">
+                <button id="accept-cookies"
+                    class="bg-accent-color text-gray-900 font-bold py-2 px-4 rounded-md hover:bg-cyan-300 transition-colors duration-300">Akzeptieren</button>
+                <button id="decline-cookies" class="text-gray-400 hover:text-white text-sm">Ablehnen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="header"
+        class="fixed top-0 left-0 right-0 z-40 bg-gray-900 bg-opacity-80 backdrop-blur-lg border-b border-gray-800 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold gradient-text"><img src="img/NoPa.png" alt="NoPa"
+                    width="200em"></a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#services"
+                    class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Services</a>
+                <a href="#process" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">Prozess</a>
+                <a href="#faq" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300">FAQ</a>
+                <a href="#contact"
+                    class="bg-accent-color text-gray-900 font-semibold py-2 px-5 rounded-md hover:bg-cyan-300 transition-colors duration-300">Kontakt</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <a href="#services" class="block py-3 px-6 text-gray-300 hover:bg-gray-800">Services</a>
+            <a href="#process" class="block py-3 px-6 text-gray-300 hover:bg-gray-800">Prozess</a>
+            <a href="#faq" class="block py-3 px-6 text-gray-300 hover:bg-gray-800">FAQ</a>
+            <a href="#contact" class="block py-3 px-6 text-gray-300 hover:bg-gray-800">Kontakt</a>
+        </div>
+    </header>
+
+    <div id="main-content">
+        <main>
+            <!-- Hero Section -->
+            <section id="hero" class="min-h-screen flex items-center pt-24 pb-12 bg-gray-900">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="max-w-3xl mx-auto">
+                        <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6 scroll-reveal">
+                            Wir entwickeln <span class="gradient-text">digitale Exzellenz</span> für Ihr Unternehmen.
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-400 mb-10 scroll-reveal" style="transition-delay: 0.2s;">
+                            Ihre Vision, unser Code. Als agile Softwareagentur schaffen wir maßgeschneiderte digitale
+                            Lösungen, die Ihr Business voranbringen. Transparent, effizient und zukunftssicher.
+                        </p>
+                        <div class="scroll-reveal" style="transition-delay: 0.4s;">
+                            <a href="#contact"
+                                class="bg-accent-color text-gray-900 font-bold py-4 px-8 rounded-lg text-lg hover:bg-cyan-300 transition-all duration-300 transform hover:scale-105">
+                                Projekt anfragen
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="services" class="py-20 bg-gray-900">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Unsere Leistungen</h2>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Von der Idee bis zum Launch – wir sind
+                            Ihr Partner für digitale Innovation.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Service Card 1 -->
+                        <div
+                            class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 transform hover:-translate-y-2 scroll-reveal">
+                            <div
+                                class="bg-cyan-400 bg-opacity-10 text-cyan-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Maßgeschneiderte Software</h3>
+                            <p class="text-gray-400">Individuelle Softwarelösungen, die perfekt auf Ihre
+                                Geschäftsprozesse zugeschnitten sind und Effizienz steigern.</p>
+                        </div>
+                        <!-- Service Card 2 -->
+                        <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 transform hover:-translate-y-2 scroll-reveal"
+                            style="transition-delay: 0.2s;">
+                            <div
+                                class="bg-cyan-400 bg-opacity-10 text-cyan-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Web & Mobile Apps</h3>
+                            <p class="text-gray-400">Entwicklung performanter Web-Anwendungen und nativer Apps für iOS &
+                                Android, die Ihre Nutzer begeistern.</p>
+                        </div>
+                        <!-- Service Card 3 -->
+                        <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-cyan-400 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 transform hover:-translate-y-2 scroll-reveal"
+                            style="transition-delay: 0.4s;">
+                            <div
+                                class="bg-cyan-400 bg-opacity-10 text-cyan-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">UI/UX & Prototyping</h3>
+                            <p class="text-gray-400">Design intuitiver Benutzeroberflächen und interaktiver Prototypen,
+                                die eine optimale User Experience sicherstellen.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Process Section -->
+            <section id="process" class="py-20 bg-gray-900">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Unser agiler Prozess</h2>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Transparenz und Kollaboration in jeder
+                            Phase Ihres Projekts.</p>
+                    </div>
+                    <div class="relative">
+                        <!-- The connecting line -->
+                        <div class="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-gray-700 hidden md:block"
+                            aria-hidden="true"></div>
+
+                        <div class="space-y-16 md:space-y-0">
+                            <!-- Process Step 1 -->
+                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center scroll-reveal">
+                                <div class="md:text-right md:pr-8 mb-8 md:mb-0">
+                                    <div class="text-5xl font-extrabold gradient-text mb-2">01</div>
+                                    <h3 class="text-2xl font-bold text-white">Analyse & Konzept</h3>
+                                    <p class="text-gray-400 mt-2">Wir tauchen tief in Ihre Anforderungen ein, verstehen
+                                        Ihre Ziele und entwickeln eine maßgeschneiderte Strategie für den Projekterfolg.
+                                    </p>
+                                </div>
+                                <div class="hidden md:block"></div>
+                            </div>
+                            <!-- Process Step 2 -->
+                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center scroll-reveal">
+                                <div class="hidden md:block"></div>
+                                <div class="md:pl-8 mb-8 md:mb-0">
+                                    <div class="text-5xl font-extrabold gradient-text mb-2">02</div>
+                                    <h3 class="text-2xl font-bold text-white">Design & Prototyping</h3>
+                                    <p class="text-gray-400 mt-2">In dieser Phase visualisieren wir die Lösung. Sie
+                                        erhalten klickbare Prototypen, um ein Gefühl für das Endprodukt zu bekommen,
+                                        bevor die erste Zeile Code geschrieben wird.</p>
+                                </div>
+                            </div>
+                            <!-- Process Step 3 -->
+                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center scroll-reveal">
+                                <div class="md:text-right md:pr-8 mb-8 md:mb-0">
+                                    <div class="text-5xl font-extrabold gradient-text mb-2">03</div>
+                                    <h3 class="text-2xl font-bold text-white">Agile Entwicklung</h3>
+                                    <p class="text-gray-400 mt-2">Wir entwickeln in kurzen Sprints. Das bedeutet, Sie
+                                        sehen regelmäßig Fortschritte, können Feedback geben und wir können flexibel auf
+                                        Änderungen reagieren.</p>
+                                </div>
+                                <div class="hidden md:block"></div>
+                            </div>
+                            <!-- Process Step 4 -->
+                            <div class="md:grid md:grid-cols-2 md:gap-8 items-center scroll-reveal">
+                                <div class="hidden md:block"></div>
+                                <div class="md:pl-8">
+                                    <div class="text-5xl font-extrabold gradient-text mb-2">04</div>
+                                    <h3 class="text-2xl font-bold text-white">Launch & Support</h3>
+                                    <p class="text-gray-400 mt-2">Nach intensiven Tests geht Ihre Anwendung live. Doch
+                                        unsere Partnerschaft endet hier nicht – wir bieten kontinuierlichen Support und
+                                        Weiterentwicklung.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="py-20 bg-gray-900">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Häufig gestellte Fragen</h2>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Antworten auf die wichtigsten Fragen zu
+                            unserer Zusammenarbeit.</p>
+                    </div>
+                    <div class="max-w-3xl mx-auto space-y-4 scroll-reveal">
+                        <!-- FAQ Item 1 -->
+                        <div class="faq-item bg-gray-800 rounded-lg border border-gray-700">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                                <span class="text-lg font-semibold text-white">Wie lange dauert die Entwicklung einer
+                                    Anwendung?</span>
+                                <span class="faq-icon text-cyan-400 text-2xl transition-transform duration-300">+</span>
+                            </button>
+                            <div class="faq-answer px-6 pb-6 text-gray-400">
+                                <p>Die Dauer hängt stark von der Komplexität und dem Umfang des Projekts ab. Ein
+                                    einfaches Projekt kann in wenigen Wochen realisiert werden, während komplexe Systeme
+                                    mehrere Monate benötigen. Nach unserer initialen Analyse geben wir Ihnen eine
+                                    realistische Zeitschätzung.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 2 -->
+                        <div class="faq-item bg-gray-800 rounded-lg border border-gray-700">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                                <span class="text-lg font-semibold text-white">Was kostet die Entwicklung einer
+                                    individuellen Software?</span>
+                                <span class="faq-icon text-cyan-400 text-2xl transition-transform duration-300">+</span>
+                            </button>
+                            <div class="faq-answer px-6 pb-6 text-gray-400">
+                                <p>Die Kosten sind ebenso individuell wie die Software selbst. Faktoren sind u.a. der
+                                    Funktionsumfang, die verwendeten Technologien und die Projektlaufzeit. Wir erstellen
+                                    Ihnen nach einem kostenlosen Erstgespräch ein transparentes und faires Angebot.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 3 -->
+                        <div class="faq-item bg-gray-800 rounded-lg border border-gray-700">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                                <span class="text-lg font-semibold text-white">Behalte ich die Rechte am
+                                    Quellcode?</span>
+                                <span class="faq-icon text-cyan-400 text-2xl transition-transform duration-300">+</span>
+                            </button>
+                            <div class="faq-answer px-6 pb-6 text-gray-400">
+                                <p>Ja, absolut. Nach vollständiger Bezahlung des Projekts gehen alle geistigen
+                                    Eigentumsrechte und der gesamte Quellcode an Sie über. Transparenz und Fairness sind
+                                    uns wichtig.</p>
+                            </div>
+                        </div>
+                        <!-- FAQ Item 4 -->
+                        <div class="faq-item bg-gray-800 rounded-lg border border-gray-700">
+                            <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                                <span class="text-lg font-semibold text-white">Wie werde ich in den Entwicklungsprozess
+                                    einbezogen?</span>
+                                <span class="faq-icon text-cyan-400 text-2xl transition-transform duration-300">+</span>
+                            </button>
+                            <div class="faq-answer px-6 pb-6 text-gray-400">
+                                <p>Sehr eng! Wir arbeiten agil, das heißt, Sie sind ein integraler Bestandteil des
+                                    Prozesses. In regelmäßigen Meetings (z.B. alle 1-2 Wochen) präsentieren wir Ihnen
+                                    den aktuellen Stand, holen Ihr Feedback ein und planen die nächsten Schritte
+                                    gemeinsam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 bg-gray-900">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 scroll-reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Lassen Sie uns Ihre Idee realisieren.</h2>
+                        <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Erzählen Sie uns von Ihrem Projekt. Wir
+                            melden uns umgehend bei Ihnen für ein unverbindliches Erstgespräch.</p>
+                    </div>
+                    <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl border border-gray-700 scroll-reveal">
+                        <form action="sendmail.php" method="POST" id="contact-form">
+                            <div id="form-result" class="hidden mb-4 p-4 rounded-md"></div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-gray-300 mb-2">Ihr Name</label>
+                                    <input type="text" id="name" name="name"
+                                        class="w-full bg-gray-700 text-white p-3 rounded-md border border-gray-600 focus:outline-none focus:border-cyan-400 ring-accent-color"
+                                        required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-gray-300 mb-2">Ihre E-Mail</label>
+                                    <input type="email" id="email" name="email"
+                                        class="w-full bg-gray-700 text-white p-3 rounded-md border border-gray-600 focus:outline-none focus:border-cyan-400 ring-accent-color"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-300 mb-2">Ihre Nachricht</label>
+                                <textarea id="message" name="message" rows="5"
+                                    class="w-full bg-gray-700 text-white p-3 rounded-md border border-gray-600 focus:outline-none focus:border-cyan-400 ring-accent-color"
+                                    required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit"
+                                    class="bg-accent-color text-gray-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-300 transition-all duration-300 transform hover:scale-105 w-full md:w-auto">
+                                    Nachricht senden
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Impressum Page -->
+    <section id="impressum-page" class="hidden py-24 bg-gray-900 min-h-screen">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h1 class="text-4xl font-bold text-white mb-8 gradient-text">Impressum</h1>
+            <div
+                class="space-y-6 text-gray-300 prose prose-invert max-w-none prose-a:text-cyan-400 hover:prose-a:underline">
+                <h2 class="text-2xl font-semibold text-white">Angaben gemäß § 5 TMG</h2>
+                <p>
+                    NoPa Webdesign<br>
+                    Büttnergasse 7<br>
+                    97222 Rimpar<br>
+                    Deutschland
+                </p>
+                <h2 class="text-2xl font-semibold text-white">Vertreten durch:</h2>
+                <p>Noel Weippert & Paul Schüle</p>
+                <h2 class="text-2xl font-semibold text-white">Kontakt</h2>
+                <p>
+                    Telefon: +4917634481360<br>
+                    E-Mail: kontakt@nopa-webdesign.de
+                </p>
+                <h2 class="text-2xl font-semibold text-white">Umsatzsteuer-ID</h2>
+                <p>
+                    Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+                    [Ihre USt-IdNr.]
+                </p>
+                <h2 class="text-2xl font-semibold text-white">Redaktionell verantwortlich</h2>
+                <p>
+                    Noel Weippert<br>
+                    Adresse finden Sie oben im Impressum.
+                </p>
+                <h2 class="text-2xl font-semibold text-white">EU-Streitschlichtung</h2>
+                <p>
+                    Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a
+                        href="https://ec.europa.eu/consumers/odr/" target="_blank"
+                        rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.<br>
+                    Unsere E-Mail-Adresse finden Sie oben im Impressum.
+                </p>
+                <h2 class="text-2xl font-semibold text-white">Verbraucherstreitbeilegung / Universalschlichtungsstelle
+                </h2>
+                <p>
+                    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+                    Verbraucherschlichtungsstelle teilzunehmen.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datenschutz Page -->
+    <section id="datenschutz-page" class="hidden py-24 bg-gray-900 min-h-screen">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h1 class="text-4xl font-bold text-white mb-8 gradient-text">Datenschutzerklärung</h1>
+            <div
+                class="space-y-6 text-gray-300 prose prose-invert max-w-none prose-a:text-cyan-400 hover:prose-a:underline">
+                <h2 class="text-2xl font-semibold text-white">1. Datenschutz auf einen Blick</h2>
+                <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten
+                    passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
+                    persönlich identifiziert werden können.</p>
+
+                <h2 class="text-2xl font-semibold text-white">2. Allgemeine Hinweise und Pflichtinformationen</h2>
+                <h3 class="text-xl font-semibold text-white">Verantwortliche Stelle</h3>
+                <p>
+                    Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:<br>
+                    NoPa Webdesign<br>
+                    Büttnergasse 7<br>
+                    97222 Rimpar<br>
+                    Telefon: +4917634481360<br>
+                    E-Mail: kontakt@nopa-webdesign.de
+                </p>
+                <h3 class="text-xl font-semibold text-white">Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
+                <p>Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können
+                    eine bereits erteilte Einwilligung jederzeit widerrufen. Die Rechtmäßigkeit der bis zum Widerruf
+                    erfolgten Datenverarbeitung bleibt vom Widerruf unberührt.</p>
+                <h3 class="text-xl font-semibold text-white">Ihre Rechte als Betroffener</h3>
+                <p>Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche
+                    Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck
+                    der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder Löschung dieser Daten.</p>
+
+                <h2 class="text-2xl font-semibold text-white">3. Datenerfassung auf dieser Website</h2>
+                <h3 class="text-xl font-semibold text-white">Cookies</h3>
+                <p>Unsere Internetseiten verwenden so genannte „Cookies“. Cookies sind kleine Textdateien und richten
+                    auf Ihrem Endgerät keinen Schaden an. Wir verwenden Cookies, um die Nutzung der Website zu
+                    ermöglichen und zu erleichtern.</p>
+                <h3 class="text-xl font-semibold text-white">Server-Log-Dateien</h3>
+                <p>Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten
+                    Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind Browsertyp und
+                    Browserversion, verwendetes Betriebssystem, Referrer URL, Hostname des zugreifenden Rechners,
+                    Uhrzeit der Serveranfrage und IP-Adresse. Eine Zusammenführung dieser Daten mit anderen Datenquellen
+                    wird nicht vorgenommen.</p>
+                <h3 class="text-xl font-semibold text-white">Kontaktformular</h3>
+                <p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem
+                    Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage
+                    und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre
+                    Einwilligung weiter.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p>&copy; 2025 NoPa Webdesign. Alle Rechte vorbehalten.</p>
+            <div class="mt-4 space-x-4">
+                <a href="#impressum" class="hover:text-cyan-400">Impressum</a>
+                <a href="#datenschutz" class="hover:text-cyan-400">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Page Elements ---
+            const mainContent = document.getElementById('main-content');
+            const impressumPage = document.getElementById('impressum-page');
+            const datenschutzPage = document.getElementById('datenschutz-page');
+
+            // --- SPA-like Page Routing ---
+            const handleRouting = () => {
+                const hash = window.location.hash || '#home';
+                const legalPages = {
+                    '#impressum': impressumPage,
+                    '#datenschutz': datenschutzPage
+                };
+
+                if (legalPages[hash]) {
+                    mainContent.classList.add('hidden');
+                    Object.values(legalPages).forEach(p => p.classList.add('hidden'));
+                    legalPages[hash].classList.remove('hidden');
+                    window.scrollTo(0, 0);
+                } else {
+                    mainContent.classList.remove('hidden');
+                    impressumPage.classList.add('hidden');
+                    datenschutzPage.classList.add('hidden');
+
+                    if (hash !== '#home' && hash.length > 1) {
+                        const targetElement = document.getElementById(hash.substring(1));
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            };
+
+            window.addEventListener('hashchange', handleRouting);
+            handleRouting(); // Call on initial load
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a, #header a, footer a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Header Shadow on Scroll ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('shadow-lg');
+                } else {
+                    header.classList.remove('shadow-lg');
+                }
+            });
+
+            // --- Scroll Reveal Animation ---
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
+            };
+            const displayScrollElement = (element) => element.classList.add('visible');
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    }
+                });
+            };
+            window.addEventListener('scroll', handleScrollAnimation);
+            setTimeout(handleScrollAnimation, 100);
+
+            // --- FAQ Accordion ---
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    faqItems.forEach(i => i.classList.remove('open'));
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+
+
+
+
+            // --- Cookie Consent ---
+            const cookieBanner = document.getElementById('cookie-consent-banner');
+            if (!localStorage.getItem('cookie_consent')) {
+                cookieBanner.classList.remove('hidden');
+            }
+            document.getElementById('accept-cookies').addEventListener('click', () => {
+                localStorage.setItem('cookie_consent', 'accepted');
+                cookieBanner.classList.add('hidden');
+            });
+            document.getElementById('decline-cookies').addEventListener('click', () => {
+                localStorage.setItem('cookie_consent', 'declined');
+                cookieBanner.classList.add('hidden');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
