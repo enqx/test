@@ -3,31 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaß Face ID</title>
-    <!-- Macht die Seite als Web-App installierbar -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Echtes Face ID Login</title>
     <link rel="manifest" href="manifest.json">
     <style>
         body {
-            font-family: sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: #111;
+            background: #000;
             color: white;
+            margin: 0;
+            user-select: none;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
         }
 
         button {
-            padding: 15px 30px;
+            padding: 16px 32px;
             font-size: 18px;
             border: none;
-            border-radius: 25px;
+            border-radius: 28px;
             background: #007aff;
             color: white;
             cursor: pointer;
             font-weight: bold;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
 
         button:active {
@@ -35,62 +43,140 @@
         }
 
         #status {
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 16px;
             color: #aaa;
+            line-height: 1.5;
+        }
+
+        .reset-btn {
+            margin-top: 50px;
+            background: #222;
+            color: #ff3b30;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 15px;
+            box-shadow: none;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Geheimbereich 🔐</h1>
-    <button onclick="starteFaceID()">Mit Face ID scannen</button>
-    <p id="status"></p>
+    <div class="container">
+        <h1 id="title">Geheimbereich 🔐</h1>
+        <button id="actionBtn" onclick="handleFaceID()">Mit Face ID einrichten</button>
+        <p id="status">Bisher wurde kein Gesicht auf diesem Gerät eingerichtet.</p>
+
+        <!-- Versteckter Button zum Zurücksetzen -->
+        <button id="resetBtn" class="reset-btn" onclick="resetApp()" style="display: none;">App zurücksetzen</button>
+    </div>
 
     <script>
-        async function starteFaceID() {
-            const statusText = document.getElementById('status');
-            statusText.innerText = "Face ID wird gestartet...";
+        const statusText = document.getElementById('status');
+        const actionBtn = document.getElementById('actionBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const titleText = document.getElementById('title');
 
-            // Zufällige Bytes für das iPhone generieren (wichtig für die API)
-            const randomChallenge = new Uint8Array(32);
-            window.crypto.getRandomValues(randomChallenge);
-            const randomUserId = new Uint8Array(16);
-            window.crypto.getRandomValues(randomUserId);
+        // Funktion zum Konvertieren von Text/Array (wichtig für die WebAuthn API)
+        const bufferEncode = (value) => btoa(String.fromCharCode.apply(null, new Uint8Array(value)));
+        const bufferDecode = (value) => Uint8Array.from(atob(value), c => c.charCodeAt(0));
 
-            // Die Konfiguration, die iOS zwingt, Face ID aufzurufen
-            const options = {
-                publicKey: {
-                    challenge: randomChallenge,
-                    rp: { name: "Meine Spaß App" },
-                    user: {
-                        id: randomUserId,
-                        name: "user@spass.de",
-                        displayName: "Gast"
-                    },
-                    pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES206 Algorithmus
-                    authenticatorSelection: {
-                        authenticatorAttachment: "platform", // Erzwingt Face ID / Touch ID des iPhones
-                        userVerification: "required"
-                    },
-                    timeout: 60000
-                }
-            };
-
-            try {
-                // Hier ploppt das originale Face ID Fenster von iOS auf!
-                const credential = await navigator.credentials.create(options);
-
-                if (credential) {
-                    statusText.innerHTML = "✅ <span style='color: #4cd964;'>Zugriff erlaubt! Willkommen im Geheimbereich.</span>";
-                    // Hier kannst du jetzt machen, was du willst (z.B. ein lustiges Bild zeigen)
-                }
-            } catch (err) {
-                // Wenn der Nutzer auf "Abbrechen" klickt oder Face ID fehlschlägt
-                statusText.innerHTML = "❌ <span style='color: #ff3b30;'>Scan abgebrochen oder fehlgeschlagen!</span>";
-                console.error(err);
+        // Beim Laden der Seite prüfen, ob bereits ein Passkey eingerichtet wurde
+        window.onload = function () {
+            if (localStorage.getItem('my_saved_credential_id')) {
+                actionBtn.innerText = "Mit Face ID einloggen";
+                statusText.innerText = "Bereit für den schnellen Gesichtsscan.";
+                resetBtn.style.display = "inline-block";
             }
+        };
+
+        async function handleFaceID() {
+            const savedCredentialId = localStorage.getItem('my_saved_credential_id');
+
+            // --- SCHRITT 1: ERSTMALIGES EINRICHTEN (REGISTRIERUNG) ---
+            if (!savedCredentialId) {
+                statusText.innerText = "Face ID Einrichtung wird gestartet...";
+
+                const randomChallenge = new Uint8Array(32);
+                window.crypto.getRandomValues(randomChallenge);
+                const randomUserId = new Uint8Array(16);
+                window.crypto.getRandomValues(randomUserId);
+
+                const createOptions = {
+                    publicKey: {
+                        challenge: randomChallenge,
+                        rp: { name: "Safe FaceID" },
+                        user: {
+                            id: randomUserId,
+                            name: "admin@geheim.de",
+                            displayName: "Besitzer"
+                        },
+                        pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+                        authenticatorSelection: {
+                            authenticatorAttachment: "platform",
+                            userVerification: "required",
+                            residentKey: "required" // Zwingt das iPhone, es im System zu sichern
+                        },
+                        timeout: 60000
+                    }
+                };
+
+                try {
+                    const credential = await navigator.credentials.create(createOptions);
+                    if (credential) {
+                        // Wir speichern die ID des Schlüssels im Browser auf dem Handy
+                        const credentialIdString = bufferEncode(credential.rawId);
+                        localStorage.setItem('my_saved_credential_id', credentialIdString);
+
+                        statusText.innerHTML = "✅ <span style='color: #30d158;'>Face ID erfolgreich eingerichtet!</span><br>Klicke jetzt erneut zum Testen des direkten Logins.";
+                        actionBtn.innerText = "Mit Face ID einloggen";
+                        resetBtn.style.display = "inline-block";
+                    }
+                } catch (err) {
+                    statusText.innerHTML = "❌ <span style='color: #ff3b30;'>Einrichtung abgebrochen.</span>";
+                    console.error(err);
+                }
+
+                // --- SCHRITT 2: DER ECHTE, SCHNELLE LOGIN (AB DEM ZWEITEN MAL) ---
+            } else {
+                statusText.innerText = "Scanne Gesicht...";
+
+                const randomChallenge = new Uint8Array(32);
+                window.crypto.getRandomValues(randomChallenge);
+
+                const getOptions = {
+                    publicKey: {
+                        challenge: randomChallenge,
+                        allowCredentials: [{
+                            id: bufferDecode(savedCredentialId),
+                            type: 'public-key'
+                        }],
+                        userVerification: "required",
+                        timeout: 60000
+                    }
+                };
+
+                try {
+                    // HIER POPPT SOFORT DAS NATIVE, SCHNELLE FACE-ID-FENSTER AUF!
+                    const assertion = await navigator.credentials.get(getOptions);
+
+                    if (assertion) {
+                        titleText.innerText = "Willkommen! 🎉";
+                        statusText.innerHTML = "✅ <span style='color: #30d158; font-weight: bold;'>Zugriff erlaubt! Du bist eingeloggt.</span>";
+                        actionBtn.style.display = "none";
+                    }
+                } catch (err) {
+                    statusText.innerHTML = "❌ <span style='color: #ff3b30;'>Face ID fehlgeschlagen oder abgebrochen.</span>";
+                    console.error(err);
+                }
+            }
+        }
+
+        // Hilfsfunktion zum Löschen des Keys, falls man von vorne testen will
+        function resetApp() {
+            localStorage.clear();
+            location.reload();
         }
     </script>
 </body>
