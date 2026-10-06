@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spaß Face ID</title>
+    <!-- Macht die Seite als Web-App installierbar -->
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #111;
+            color: white;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            background: #007aff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:active {
+            background: #0056b3;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Geheimbereich 🔐</h1>
+    <button onclick="starteFaceID()">Mit Face ID scannen</button>
+    <p id="status"></p>
+
+    <script>
+        async function starteFaceID() {
+            const statusText = document.getElementById('status');
+            statusText.innerText = "Face ID wird gestartet...";
+
+            // Zufällige Bytes für das iPhone generieren (wichtig für die API)
+            const randomChallenge = new Uint8Array(32);
+            window.crypto.getRandomValues(randomChallenge);
+            const randomUserId = new Uint8Array(16);
+            window.crypto.getRandomValues(randomUserId);
+
+            // Die Konfiguration, die iOS zwingt, Face ID aufzurufen
+            const options = {
+                publicKey: {
+                    challenge: randomChallenge,
+                    rp: { name: "Meine Spaß App" },
+                    user: {
+                        id: randomUserId,
+                        name: "user@spass.de",
+                        displayName: "Gast"
+                    },
+                    pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ES206 Algorithmus
+                    authenticatorSelection: {
+                        authenticatorAttachment: "platform", // Erzwingt Face ID / Touch ID des iPhones
+                        userVerification: "required"
+                    },
+                    timeout: 60000
+                }
+            };
+
+            try {
+                // Hier ploppt das originale Face ID Fenster von iOS auf!
+                const credential = await navigator.credentials.create(options);
+
+                if (credential) {
+                    statusText.innerHTML = "✅ <span style='color: #4cd964;'>Zugriff erlaubt! Willkommen im Geheimbereich.</span>";
+                    // Hier kannst du jetzt machen, was du willst (z.B. ein lustiges Bild zeigen)
+                }
+            } catch (err) {
+                // Wenn der Nutzer auf "Abbrechen" klickt oder Face ID fehlschlägt
+                statusText.innerHTML = "❌ <span style='color: #ff3b30;'>Scan abgebrochen oder fehlgeschlagen!</span>";
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+
+</html>
